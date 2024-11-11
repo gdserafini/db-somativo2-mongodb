@@ -1,5 +1,6 @@
-import mongoose from 'mongoose'
+import mongoose from 'mongoose';
 
+// Schema de usuário
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -31,9 +32,11 @@ const userSchema = new mongoose.Schema({
     zipCode: String,
   },
 });
-userSchema.index({email: 1})
-userSchema.index({name: 1})
+userSchema.index({ email: 1 });
+userSchema.index({ name: 1 });
+userSchema.index({ 'address.street': 1, 'address.city': 1 }); // Índice adicional para otimizar consultas de endereço
 
+// Schema de produto
 const productSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -60,7 +63,6 @@ const productSchema = new mongoose.Schema({
     ref: 'Category',
     required: [true, 'Categoria é obrigatória'],
   },
-
   location: {
     type: { type: String, enum: ['Point'], required: true },
     coordinates: {
@@ -69,10 +71,11 @@ const productSchema = new mongoose.Schema({
     },
   },
 });
-userSchema.index({ location: '2dsphere' });
-productSchema.index({category: 1})
-productSchema.index({name: 1})
+productSchema.index({ category: 1 });
+productSchema.index({ name: 1 });
+productSchema.index({ location: '2dsphere' }); // Índice geoespacial para localização
 
+// Schema de transação
 const transactionSchema = new mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
@@ -98,10 +101,11 @@ const transactionSchema = new mongoose.Schema({
     default: Date.now,
   },
 });
-transactionSchema.index({transactionDate: 1})
-transactionSchema.index({user: 1})
-transactionSchema.index({product: 1})
+transactionSchema.index({ transactionDate: 1 });
+transactionSchema.index({ user: 1 });
+transactionSchema.index({ product: 1 });
 
+// Schema de avaliação
 const reviewSchema = new mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
@@ -129,9 +133,10 @@ const reviewSchema = new mongoose.Schema({
     default: Date.now,
   },
 });
-reviewSchema.index({user: 1})
-reviewSchema.index({product: 1})
+reviewSchema.index({ user: 1 });
+reviewSchema.index({ product: 1 });
 
+// Schema de categoria
 const categorySchema = new mongoose.Schema({
   name: {
     type: String,
@@ -148,9 +153,9 @@ const categorySchema = new mongoose.Schema({
     required: [true, 'Descrição da categoria é obrigatória'],
   },
 });
-categorySchema.index({name: 1})
+categorySchema.index({ name: 1 });
 
-
+// Schema de promoção
 const promotionSchema = new mongoose.Schema({
   product: {
     type: mongoose.Schema.Types.ObjectId,
@@ -173,6 +178,7 @@ const promotionSchema = new mongoose.Schema({
   },
 });
 
+// Schema de pontos de fidelidade
 const loyaltyPointsSchema = new mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
@@ -185,7 +191,6 @@ const loyaltyPointsSchema = new mongoose.Schema({
   },
 });
 
-
 export const User = mongoose.model('User', userSchema);
 export const Product = mongoose.model('Product', productSchema);
 export const Transaction = mongoose.model('Transaction', transactionSchema);
@@ -193,5 +198,3 @@ export const Review = mongoose.model('Review', reviewSchema);
 export const Category = mongoose.model('Category', categorySchema);
 export const Promotion = mongoose.model('Promotion', promotionSchema);
 export const LoyaltyPoints = mongoose.model('LoyaltyPoints', loyaltyPointsSchema);
-
-

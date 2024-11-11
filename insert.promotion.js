@@ -1,7 +1,9 @@
+import mongoose from 'mongoose';
 import { Promotion } from './model.mongodb';
 
 async function createPromotion() {
-  const productId = mongoose.Types.ObjectId('ID_DO_PRODUTO');
+  const productId = mongoose.Types.ObjectId('ID_DO_PRODUTO'); // Substitua 'ID_DO_PRODUTO' pelo ID real do produto
+
   const newPromotion = {
     product: productId,
     discountPercentage: 20,
@@ -13,7 +15,7 @@ async function createPromotion() {
     const savedPromotion = await Promotion.create(newPromotion);
     console.log('Promoção criada: ', savedPromotion);
   } catch (error) {
-    console.log(error);
+    console.error('Erro ao criar promoção:', error);
   }
 }
 

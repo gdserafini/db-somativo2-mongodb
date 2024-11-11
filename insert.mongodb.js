@@ -1,3 +1,4 @@
+import mongoose from 'mongoose';
 import { User } from "./model.mongodb";
 import { Product } from "./model.mongodb";
 import { Category } from "./model.mongodb";
@@ -67,7 +68,7 @@ async function createUsers() {
       console.log('User saved: ', user);
     });
   } catch (error) {
-    console.log(error);
+    console.error('Erro ao salvar usuários:', error);
   }
 }
 
@@ -104,63 +105,63 @@ const categories = [
 ];
 
 async function createCategories() {
-    try {
-      const savedCategories = await Category.insertMany(categories);
-      savedCategories.forEach((category) => {
-        console.log('Category saved: ', category);
-      });
-    } catch (error) {
-      console.log(error);
-    }
+  try {
+    const savedCategories = await Category.insertMany(categories);
+    savedCategories.forEach((category) => {
+      console.log('Category saved: ', category);
+    });
+  } catch (error) {
+    console.error('Erro ao salvar categorias:', error);
+  }
 }
 
 const products = [
-    {
-      name: 'Smartphone XYZ',
-      description: 'Smartphone com tela de 6.5" e câmera de 48MP, ideal para quem busca um bom custo-benefício.',
-      price: 1500.00,
-      quantity: 30,
-      category: categoryId1,
-    },
-    {
-      name: 'Camiseta Estampada',
-      description: 'Camiseta de algodão com estampa divertida, confortável e resistente, disponível em várias cores.',
-      price: 49.90,
-      quantity: 100,
-      category: categoryId2,
-    },
-    {
-      name: 'Fone de Ouvido Bluetooth',
-      description: 'Fone de ouvido sem fio, com qualidade de som de alta definição, e tecnologia de cancelamento de ruído.',
-      price: 299.90,
-      quantity: 50,
-      category: categoryId3,
-    },
-    {
-      name: 'Tênis Running 3000',
-      description: 'Tênis esportivo confortável, ideal para corridas e caminhadas, com excelente tração e durabilidade.',
-      price: 399.90,
-      quantity: 20,
-      category: categoryId2,
-    },
-    {
-      name: 'Notebook Gamer',
-      description: 'Notebook com 16GB de RAM e placa gráfica NVIDIA GTX 1650, ideal para jogos e uso profissional.',
-      price: 3500.00,
-      quantity: 10,
-      category: categoryId1,
-    },
-  ];
-  
+  {
+    name: 'Smartphone XYZ',
+    description: 'Smartphone com tela de 6.5" e câmera de 48MP, ideal para quem busca um bom custo-benefício.',
+    price: 1500.00,
+    quantity: 30,
+    category: categoryId1,
+  },
+  {
+    name: 'Camiseta Estampada',
+    description: 'Camiseta de algodão com estampa divertida, confortável e resistente, disponível em várias cores.',
+    price: 49.90,
+    quantity: 100,
+    category: categoryId2,
+  },
+  {
+    name: 'Fone de Ouvido Bluetooth',
+    description: 'Fone de ouvido sem fio, com qualidade de som de alta definição, e tecnologia de cancelamento de ruído.',
+    price: 299.90,
+    quantity: 50,
+    category: categoryId3,
+  },
+  {
+    name: 'Tênis Running 3000',
+    description: 'Tênis esportivo confortável, ideal para corridas e caminhadas, com excelente tração e durabilidade.',
+    price: 399.90,
+    quantity: 20,
+    category: categoryId2,
+  },
+  {
+    name: 'Notebook Gamer',
+    description: 'Notebook com 16GB de RAM e placa gráfica NVIDIA GTX 1650, ideal para jogos e uso profissional.',
+    price: 3500.00,
+    quantity: 10,
+    category: categoryId1,
+  },
+];
+
 async function createProducts() {
-    try {
-      const savedProducts = await Product.insertMany(products);
-      savedProducts.forEach((product) => {
-        console.log('Product saved: ', product);
-      });
-    } catch (error) {
-      console.log(error);
-    }
+  try {
+    const savedProducts = await Product.insertMany(products);
+    savedProducts.forEach((product) => {
+      console.log('Product saved: ', product);
+    });
+  } catch (error) {
+    console.error('Erro ao salvar produtos:', error);
+  }
 }
 
 createUsers();
