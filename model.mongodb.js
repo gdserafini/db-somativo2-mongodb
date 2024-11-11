@@ -60,7 +60,16 @@ const productSchema = new mongoose.Schema({
     ref: 'Category',
     required: [true, 'Categoria é obrigatória'],
   },
+
+  location: {
+    type: { type: String, enum: ['Point'], required: true },
+    coordinates: {
+      type: [Number], // [longitude, latitude]
+      required: true,
+    },
+  },
 });
+userSchema.index({ location: '2dsphere' });
 productSchema.index({category: 1})
 productSchema.index({name: 1})
 
@@ -141,8 +150,48 @@ const categorySchema = new mongoose.Schema({
 });
 categorySchema.index({name: 1})
 
+
+const promotionSchema = new mongoose.Schema({
+  product: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Product',
+    required: [true, 'Produto é obrigatório'],
+  },
+  discountPercentage: {
+    type: Number,
+    required: [true, 'Porcentagem de desconto é obrigatória'],
+    min: [0, 'Desconto não pode ser negativo'],
+    max: [100, 'Desconto não pode ser superior a 100%'],
+  },
+  startDate: {
+    type: Date,
+    required: [true, 'Data de início é obrigatória'],
+  },
+  endDate: {
+    type: Date,
+    required: [true, 'Data de término é obrigatória'],
+  },
+});
+
+const loyaltyPointsSchema = new mongoose.Schema({
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: [true, 'Usuário é obrigatório'],
+  },
+  points: {
+    type: Number,
+    default: 0,
+  },
+});
+
+
 export const User = mongoose.model('User', userSchema);
 export const Product = mongoose.model('Product', productSchema);
 export const Transaction = mongoose.model('Transaction', transactionSchema);
 export const Review = mongoose.model('Review', reviewSchema);
 export const Category = mongoose.model('Category', categorySchema);
+export const Promotion = mongoose.model('Promotion', promotionSchema);
+export const LoyaltyPoints = mongoose.model('LoyaltyPoints', loyaltyPointsSchema);
+
+
